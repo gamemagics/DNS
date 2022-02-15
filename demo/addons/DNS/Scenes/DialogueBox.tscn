@@ -1,0 +1,13 @@
+[gd_scene format=2]
+
+[node name="DialogueBox" type="CanvasLayer"]
+
+[node name="Content" type="RichTextLabel" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -125.0
+grow_vertical = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
