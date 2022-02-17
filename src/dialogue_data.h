@@ -10,7 +10,6 @@ namespace godot {
 
 class DialogueData : public Resource {
     GODOT_CLASS(DialogueData, Resource);
-    //OBJ_CATEGORY("Resources");
 public:
     struct DialogueLine {
         String character;
@@ -22,6 +21,8 @@ public:
 
     DialogueData() : _current(0), _script_node(nullptr) {
     }
+
+    static void _register_methods();
 
     const DialogueLine& Next(int choice = -1);
 

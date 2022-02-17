@@ -4,6 +4,9 @@
 
 using namespace godot;
 
+void DialogueData::_register_methods() {
+}
+
 const DialogueData::DialogueLine& DialogueData::Next(int choice/* = -1*/) {
     const NextLine& next_line = _next[_current];    
     if (choice == -1) {

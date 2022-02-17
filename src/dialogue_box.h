@@ -17,6 +17,8 @@ public:
     void _process();
 
     void _ready();
+
+    void StartDialogue(String filename);
 private:
     NodePath _background_path;
     NodePath _content_path;
@@ -25,6 +27,7 @@ private:
     NodePath _choices_path;
 
     void _hide(NodePath path);
+    void _show(NodePath path);
 };
 
 } // namespace godot

@@ -40,3 +40,23 @@ void DialogueBox::_hide(NodePath path) {
         Godot::print_error("Can't get node " + path, "DialogueBox::_hide", __FILE__, __LINE__);
     }
 }
+
+void DialogueBox::_show(NodePath path) {
+    auto* control_node = this->get_node<Control>(path);
+    if (control_node != nullptr) {
+        control_node->show();
+    }
+    else {
+        Godot::print_error("Can't get node " + path, "DialogueBox::_hide", __FILE__, __LINE__);
+    }
+}
+
+void DialogueBox::StartDialogue(String filename) {
+    // TODO:
+
+    _show(_background_path);
+    _show(_content_path);
+    _show(_name_path);
+    _show(_avatar_path);
+    _show(_choices_path);
+}
