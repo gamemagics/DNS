@@ -96,3 +96,5 @@ margin_top = 54.0
 margin_right = 51.0
 margin_bottom = 68.0
 text = "Choice4"
+
+[node name="Tween" type="Tween" parent="."]
