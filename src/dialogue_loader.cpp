@@ -221,17 +221,28 @@ String DialogueLoader::ParseFunction(String& text) {
 }
 
 void DialogueLoader::ParseGoto(String& text, String& label, String& function) {
-
+    text = text.substr(5, text.length() - 5);
+    if (text.ends_with("()")) {
+        function = ParseFunction(function);
+        label = "";
+    }
+    else {
+        label = text;
+        function = "";
+    }
 }
 
 String DialogueLoader::ParseLabel(String& text) {
-
+    return text.substr(0, text.length() - 1);
 }
 
 float DialogueLoader::ParseTime(String& text) {
-    if (text.find("as") == -1) {
+    int start = text.find("as");
+    if (start == -1) {
         return -1.0f;
     }
 
-    
+    start += 2;
+    text = text.substr(start, text.length() - start);
+    return text.to_float();
 }
