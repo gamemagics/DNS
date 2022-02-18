@@ -5,53 +5,57 @@
 #include <Resource.hpp>
 #include <Node.hpp>
 #include <vector>
+#include <unordered_map>
+#include <cstring>
 
 namespace godot {
 
 class DialogueData : public Resource {
     GODOT_CLASS(DialogueData, Resource);
 public:
-    struct DialogueLine {
-        String character;
-        String content;
-        String label;
-        String choices[4];
-        String choice_labels[4];
+    enum class CommandType {
+        SHOW,
+        CHARACTER,
+        SELECT,
+        QUIT,
+        GOTO,
+        EXECUTE
     };
 
-    DialogueData() : _current(0), _script_node(nullptr) {
+    struct DialogueLine {
+        CommandType type;
+        float time;
+        PoolStringArray content;
+        PoolStringArray jump;
+        unsigned char relative;
+        unsigned char runtime;
+
+        DialogueLine() : time(-1), relative(0), runtime(0) {}
+    };
+
+    DialogueData() : _current(0) {
     }
 
     static void _register_methods();
 
     const DialogueLine& Next(int choice = -1);
 
-    void Push(const DialogueLine& line, int index);
-    
-    void Push(const DialogueLine& line, String function);
+    void Push(const DialogueLine& line);
 
-    void Push(const DialogueLine& line, int choices[4]);
-
-    inline void SetScriptNode(Node* script) {
+    inline void SetScriptNode(String script) {
         _script_node = script;
     }
+
+    inline void AddMapping(String key) {
+        _mapping[key] = _lines.size();
+    }
 private:
-    struct NextLine {
-        int index;
-        int choices[4];
-        String function;
-
-        NextLine() : index(0), function("") {}
-        ~NextLine(){}
-    };
-
     std::vector<DialogueLine> _lines;
-
-    std::vector<NextLine> _next;
+    std::unordered_map<String, int> _mapping;
 
     int _current;
 
-    Node* _script_node;
+    String _script_node;
 protected:  
 };
 

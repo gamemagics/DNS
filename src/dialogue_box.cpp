@@ -3,6 +3,8 @@
 #include <GodotGlobal.hpp>
 #include <Control.hpp>
 
+#include "dialogue_loader.h"
+
 using namespace godot;
 
 void DialogueBox::_register_methods() {
@@ -18,6 +20,8 @@ void DialogueBox::_init() {
     _name_path = "Name";
     _avatar_path = "Avatar";
     _choices_path = "Choices";
+    _tween_path = "Tween";
+    _data = nullptr;
 }
 
 void DialogueBox::_process() {
@@ -53,7 +57,15 @@ void DialogueBox::_show(NodePath path) {
 }
 
 void DialogueBox::StartDialogue(String filename) {
-    // TODO:
+    if (_data != nullptr) {
+        _data->free();
+    }
+
+    _data = DialogueLoader::GetInstance()->LoadDialogue(filename);
+    if (_data == nullptr) {
+        Godot::print_error("Can't load dialogue " + filename, "DialogueBox::StartDialogue", __FILE__, __LINE__);
+        return;
+    }
 
     _show(_background_path);
     _show(_content_path);

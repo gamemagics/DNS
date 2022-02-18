@@ -18,6 +18,11 @@ config/icon="res://icon.png"
 
 DialogueBox="*res://addons/DNS/Scenes/DialogueBox.tscn"
 
+[locale]
+
+translations=PoolStringArray( "res://Dialogues/test.en.translation", "res://Dialogues/test.zh_CN.translation" )
+locale_filter=[ 0, [ "en_US", "zh_CN" ] ]
+
 [physics]
 
 common/enable_pause_aware_picking=true
