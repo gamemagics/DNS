@@ -1,3 +1,18 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/TestButton.cs" type="Script" id=1]
 
 [node name="Main" type="Node2D"]
+
+[node name="Button" type="Button" parent="."]
+margin_left = 425.0
+margin_top = 226.0
+margin_right = 574.0
+margin_bottom = 273.0
+text = "Test"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="Button" to="Button" method="OnButtonPressed"]

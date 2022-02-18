@@ -9,6 +9,7 @@ void DialogueBox::_register_methods() {
     register_method("_init", &DialogueBox::_init);
     register_method("_process", &DialogueBox::_process);
     register_method("_ready", &DialogueBox::_ready);
+    register_method("StartDialogue", &DialogueBox::StartDialogue);
 }
 
 void DialogueBox::_init() {
