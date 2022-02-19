@@ -5,7 +5,7 @@
 #include <Resource.hpp>
 #include <Node.hpp>
 #include <vector>
-#include <unordered_map>
+#include <Dictionary.hpp>
 #include <cstring>
 
 namespace godot {
@@ -40,7 +40,9 @@ public:
 
     const DialogueLine& Next(int choice = -1);
 
-    void Push(const DialogueLine& line);
+    inline void Push(const DialogueLine& line) {
+        _lines.push_back(line);
+    }
 
     inline void SetScriptNode(String script) {
         _script_node = script;
@@ -51,7 +53,7 @@ public:
     }
 private:
     std::vector<DialogueLine> _lines;
-    std::unordered_map<String, int> _mapping;
+    Dictionary _mapping;
 
     int _current;
 
