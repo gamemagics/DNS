@@ -7,6 +7,7 @@
 #include <vector>
 #include <Dictionary.hpp>
 #include <cstring>
+#include <string>
 
 namespace godot {
 
@@ -14,12 +15,12 @@ class DialogueData : public Resource {
     GODOT_CLASS(DialogueData, Resource);
 public:
     enum class CommandType {
-        SHOW,
-        CHARACTER,
-        SELECT,
-        QUIT,
-        GOTO,
-        EXECUTE
+        SHOW = 0,
+        CHARACTER = 1,
+        SELECT = 2,
+        QUIT = 3,
+        GOTO = 4,
+        EXECUTE = 5
     };
 
     struct DialogueLine {
@@ -50,6 +51,10 @@ public:
 
     inline void AddMapping(String key) {
         _mapping[key] = _lines.size();
+    }
+
+    inline String GetScriptNode() const {
+        return _script_node;
     }
 private:
     std::vector<DialogueLine> _lines;

@@ -98,7 +98,7 @@ DialogueData* DialogueLoader::Parse(String content) {
             dl.type = DialogueData::CommandType::SELECT;
             dialogue->Push(dl);
         }
-        else if (line.ends_with(":") != -1) {
+        else if (line.ends_with(":")) {
             dialogue->AddMapping(ParseLabel(line));
         }
         else if (line.find("goto ") != -1) {
@@ -223,7 +223,7 @@ String DialogueLoader::ParseFunction(String& text) {
 void DialogueLoader::ParseGoto(String& text, String& label, String& function) {
     text = text.substr(5, text.length() - 5);
     if (text.ends_with("()")) {
-        function = ParseFunction(function);
+        function = ParseFunction(text);
         label = "";
     }
     else {
