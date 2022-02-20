@@ -14,6 +14,8 @@ void DialogueBox::_register_methods() {
     register_method("StartDialogue", &DialogueBox::StartDialogue);
     register_method("SkipAnimation", &DialogueBox::SkipAnimation);
     register_method("Next", &DialogueBox::Next);
+
+    register_signal<DialogueBox>(const_cast<char*>("on_dialogue_end"));
 }
 
 void DialogueBox::_init() {
