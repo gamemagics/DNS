@@ -16,11 +16,15 @@ public:
 
     void _init();
 
-    void _process();
+    void _process(float delta);
 
     void _ready();
 
     void StartDialogue(String filename);
+
+    void SkipAnimation();
+    
+    void Next();
 private:
     NodePath _background_path;
     NodePath _content_path;
@@ -28,11 +32,12 @@ private:
     NodePath _avatar_path;
     NodePath _choices_path;
     NodePath _tween_path;
+    NodePath _hint_path;
 
     DialogueData* _data;
 
-    void _hide(NodePath path);
-    void _show(NodePath path);
+    void Hide(NodePath path);
+    void Show(NodePath path);
 };
 
 } // namespace godot

@@ -12,6 +12,8 @@ void DialogueBox::_register_methods() {
     register_method("_process", &DialogueBox::_process);
     register_method("_ready", &DialogueBox::_ready);
     register_method("StartDialogue", &DialogueBox::StartDialogue);
+    register_method("SkipAnimation", &DialogueBox::SkipAnimation);
+    register_method("Next", &DialogueBox::Next);
 }
 
 void DialogueBox::_init() {
@@ -21,38 +23,40 @@ void DialogueBox::_init() {
     _avatar_path = "Avatar";
     _choices_path = "Choices";
     _tween_path = "Tween";
+    _hint_path = "NextHint";
     _data = nullptr;
 }
 
-void DialogueBox::_process() {
+void DialogueBox::_process(float delta) {
 
 }
 
 void DialogueBox::_ready() {
-    _hide(_background_path);
-    _hide(_content_path);
-    _hide(_name_path);
-    _hide(_avatar_path);
-    _hide(_choices_path);
+    Hide(_background_path);
+    Hide(_content_path);
+    Hide(_name_path);
+    Hide(_avatar_path);
+    Hide(_choices_path);
+    Hide(_hint_path);
 }
 
-void DialogueBox::_hide(NodePath path) {
+void DialogueBox::Hide(NodePath path) {
     auto* control_node = this->get_node<Control>(path);
     if (control_node != nullptr) {
         control_node->hide();
     }
     else {
-        Godot::print_error("Can't get node " + path, "DialogueBox::_hide", __FILE__, __LINE__);
+        Godot::print_error("Can't get node " + path, "DialogueBox::Hide", __FILE__, __LINE__);
     }
 }
 
-void DialogueBox::_show(NodePath path) {
+void DialogueBox::Show(NodePath path) {
     auto* control_node = this->get_node<Control>(path);
     if (control_node != nullptr) {
         control_node->show();
     }
     else {
-        Godot::print_error("Can't get node " + path, "DialogueBox::_hide", __FILE__, __LINE__);
+        Godot::print_error("Can't get node " + path, "DialogueBox::Hide", __FILE__, __LINE__);
     }
 }
 
@@ -67,9 +71,17 @@ void DialogueBox::StartDialogue(String filename) {
         return;
     }
 
-    _show(_background_path);
-    _show(_content_path);
-    _show(_name_path);
-    _show(_avatar_path);
-    _show(_choices_path);
+    Show(_background_path);
+    Show(_content_path);
+    Show(_name_path);
+    Show(_avatar_path);
+    Show(_choices_path);
+}
+
+void DialogueBox::SkipAnimation() {
+
+}
+
+void DialogueBox::Next() {
+
 }

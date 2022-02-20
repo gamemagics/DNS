@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://addons/DNS/DialogueBox.gdns" type="Script" id=1]
 [ext_resource path="res://Images/player_icon.tres" type="Texture" id=2]
 [ext_resource path="res://addons/DNS/Styles/NameBackground.tres" type="StyleBox" id=3]
 [ext_resource path="res://addons/DNS/Styles/9SpriteBackground.tres" type="StyleBox" id=4]
+[ext_resource path="res://Images/dots.tres" type="Texture" id=5]
 
 [node name="DialogueBox" type="CanvasLayer"]
 script = ExtResource( 1 )
@@ -61,6 +62,21 @@ margin_top = -248.0
 margin_right = 135.0
 margin_bottom = -56.0
 texture = ExtResource( 2 )
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NextHint" type="TextureRect" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -40.0
+margin_top = -40.0
+margin_right = -8.0
+margin_bottom = -8.0
+texture = ExtResource( 5 )
 stretch_mode = 1
 __meta__ = {
 "_edit_use_anchors_": false
