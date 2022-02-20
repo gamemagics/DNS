@@ -34,7 +34,7 @@ public:
         DialogueLine() : time(-1), relative(0), runtime(0) {}
     };
 
-    DialogueData() : _current(0) {
+    DialogueData() : _current(0), _node(nullptr) {
     }
 
     static void _register_methods();
@@ -63,6 +63,14 @@ private:
     int _current;
 
     String _script_node;
+    Node* _node;
+
+    int ProcessSelect(int choice);
+    void ProcessCharacter();
+    int ProcessGoto();
+    void ProcessExecute();
+
+    String Execute(String name);
 protected:  
 };
 
