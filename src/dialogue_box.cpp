@@ -14,6 +14,7 @@ void DialogueBox::_register_methods() {
     register_method("_init", &DialogueBox::_init);
     register_method("_process", &DialogueBox::_process);
     register_method("_ready", &DialogueBox::_ready);
+    register_method("_unhandled_input", &DialogueBox::_unhandled_input);
     register_method("StartDialogue", &DialogueBox::StartDialogue);
 
     register_signal<DialogueBox>(const_cast<char*>("on_dialogue_end"));
@@ -38,11 +39,7 @@ void DialogueBox::_process(float delta) {
             UpdateIdle();
             break;
         case DialogueStatus::PLAY:
-            UpdatePlay();
-            break;
         case DialogueStatus::WAIT:
-            UpdateWait();
-            break;
         default: // DISABLE
             break;
     }
@@ -60,6 +57,20 @@ void DialogueBox::_ready() {
 
     if (_tween == nullptr) {
         Godot::print_error("Content node is not set.", "DialogueBox::_ready", __FILE__, __LINE__);
+    }
+}
+
+void DialogueBox::_unhandled_input(const Ref<InputEvent> event) {
+    switch (_status) {
+        case DialogueStatus::PLAY:
+            UpdatePlay();
+            break;
+        case DialogueStatus::WAIT:
+            UpdateWait();
+            break;
+        case DialogueStatus::IDLE:
+        default: // DISABLE
+            break;
     }
 }
 
@@ -166,6 +177,7 @@ void DialogueBox::UpdateIdle() {
 void DialogueBox::UpdatePlay() {
     if (Input::get_singleton()->is_action_pressed(_next_key)) {
         _content_node->set_percent_visible(1.0);
+        get_tree()->set_input_as_handled();
     }
     
     if (_content_node->get_percent_visible() >= 1.0) {
@@ -177,6 +189,7 @@ void DialogueBox::UpdatePlay() {
 void DialogueBox::UpdateWait() {
     if (Input::get_singleton()->is_action_pressed(_next_key)) {
         _status = DialogueStatus::IDLE;
+        get_tree()->set_input_as_handled();
     }
 }
 

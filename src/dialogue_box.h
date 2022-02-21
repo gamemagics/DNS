@@ -6,6 +6,7 @@
 #include <CanvasLayer.hpp>
 #include <Tween.hpp>
 #include <RichTextLabel.hpp>
+#include <InputEvent.hpp>
 
 #include "dialogue_data.h"
 
@@ -20,6 +21,8 @@ public:
     void _init();
 
     void _process(float delta);
+
+    void _unhandled_input(const Ref<InputEvent> event);
 
     void _ready();
 
