@@ -2,6 +2,8 @@
 
 #include <GodotGlobal.hpp>
 #include <Control.hpp>
+#include <SceneTree.hpp>
+#include <Viewport.hpp>
 
 #include "dialogue_loader.h"
 
@@ -74,7 +76,7 @@ void DialogueBox::StartDialogue(String filename) {
     }
 
     _data->setDialogueBoxRef(this);
-    _script_node = get_node(_data->GetScriptNode());
+    _script_node = get_tree()->get_current_scene()->get_node(_data->GetScriptNode());
 
     Show(_background_path);
     Show(_content_path);

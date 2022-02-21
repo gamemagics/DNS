@@ -1,4 +1,4 @@
-# res://Scripts/TestDialogueJob.cs
+# DialogueJob
 
 [Player]
 "Hello!"
