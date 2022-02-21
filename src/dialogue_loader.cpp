@@ -106,7 +106,7 @@ DialogueData* DialogueLoader::Parse(String content) {
             ParseGoto(line, label, func);
             if (label.empty()) {
                 dl.jump.push_back(func);
-                dl.relative = 1;
+                dl.runtime = 1;
             }
             else {
                 dl.jump.push_back(label);
