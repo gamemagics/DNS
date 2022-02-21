@@ -3,8 +3,8 @@
 #include <GodotGlobal.hpp>
 #include <Control.hpp>
 #include <SceneTree.hpp>
-#include <RichTextLabel.hpp>
 #include <PoolArrays.hpp>
+#include <Input.hpp>
 
 #include "dialogue_loader.h"
 
@@ -27,6 +27,7 @@ void DialogueBox::_init() {
     _choices_path = "Choices";
     _tween_path = "Tween";
     _hint_path = "NextHint";
+    _next_key = "dialogue_next";
     _data = nullptr;
     _speed = 0.1f;
 }
@@ -40,6 +41,8 @@ void DialogueBox::_process(float delta) {
             UpdatePlay();
             break;
         case DialogueStatus::WAIT:
+            UpdateWait();
+            break;
         default: // DISABLE
             break;
     }
@@ -51,6 +54,12 @@ void DialogueBox::_ready() {
 
     if (_tween == nullptr) {
         Godot::print_error("Tween is not set.", "DialogueBox::_ready", __FILE__, __LINE__);
+    }
+
+    _content_node = get_node<RichTextLabel>(_content_path);
+
+    if (_tween == nullptr) {
+        Godot::print_error("Content node is not set.", "DialogueBox::_ready", __FILE__, __LINE__);
     }
 }
 
@@ -132,12 +141,6 @@ void DialogueBox::UpdateIdle() {
         Disable();
     }
     else if (line.type == CommandType::SHOW) {
-        RichTextLabel* content_node = Object::cast_to<RichTextLabel>(Show(_content_path));
-        if (content_node == nullptr) {
-            Godot::print_error("Content label is not set.", "DialogueBox::UpdateIdle", __FILE__, __LINE__);
-            return;
-        }
-        
         String text;
         if (line.relative) {
             text = (Object::tr(line.content[0]));
@@ -146,13 +149,13 @@ void DialogueBox::UpdateIdle() {
             text = (line.content[0]);
         }
 
-        content_node->set_text(text);
+        _content_node->set_bbcode(text);
         if (line.time > 0.0f) {
             _speed = 1.0f / line.time;
         }
         
-        content_node->set_percent_visible(0.0);
-        _tween->interpolate_property(content_node, "percent_visible", 0, 1,
+        _content_node->set_percent_visible(0.0);
+        _tween->interpolate_property(_content_node, "percent_visible", 0, 1,
                                     _speed * text.length(), Tween::TRANS_LINEAR);
         _tween->start();
 
@@ -161,7 +164,20 @@ void DialogueBox::UpdateIdle() {
 }
 
 void DialogueBox::UpdatePlay() {
+    if (Input::get_singleton()->is_action_pressed(_next_key)) {
+        _content_node->set_percent_visible(1.0);
+    }
+    
+    if (_content_node->get_percent_visible() >= 1.0) {
+        _tween->stop_all();
+        _status = DialogueStatus::WAIT;
+    }
+}
 
+void DialogueBox::UpdateWait() {
+    if (Input::get_singleton()->is_action_pressed(_next_key)) {
+        _status = DialogueStatus::IDLE;
+    }
 }
 
 void DialogueBox::Disable() {

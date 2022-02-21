@@ -5,6 +5,7 @@
 #include <Control.hpp>
 #include <CanvasLayer.hpp>
 #include <Tween.hpp>
+#include <RichTextLabel.hpp>
 
 #include "dialogue_data.h"
 
@@ -38,9 +39,12 @@ private:
     NodePath _tween_path;
     NodePath _hint_path;
 
+    String _next_key;
+
     DialogueData* _data;
     Node* _script_node;
     Tween* _tween;
+    RichTextLabel* _content_node;
 
     float _speed;
 
@@ -51,6 +55,8 @@ private:
 
     void UpdateIdle();
     void UpdatePlay();
+    void UpdateWait();
+
     void Disable();
 };
 
