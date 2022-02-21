@@ -264,7 +264,7 @@ void DialogueBox::UpdateWait() {
             next = (_selected + _select_range - 1) % _select_range;
             get_tree()->set_input_as_handled();
         }
-        else if (Input::get_singleton()->is_action_pressed(_up_key)) {
+        else if (Input::get_singleton()->is_action_pressed(_down_key)) {
             next = (_selected + 1) % _select_range;
             get_tree()->set_input_as_handled();
         }

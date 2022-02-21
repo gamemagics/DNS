@@ -4,7 +4,7 @@
 "Hello!"
 [NPC]
 "Hello."
->> "I'm [color=]new here." goto new
+>> "I'm new here." goto new
 >> "I've done." goto done
 
 new:
