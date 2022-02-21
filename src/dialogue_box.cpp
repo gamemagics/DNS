@@ -20,6 +20,9 @@ void DialogueBox::_register_methods() {
     register_method("_unhandled_input", &DialogueBox::_unhandled_input);
     register_method("StartDialogue", &DialogueBox::StartDialogue);
     register_method("FinishPlaying", &DialogueBox::FinishPlaying);
+    register_method("AddCharacter", &DialogueBox::AddCharacter);
+
+    register_property<DialogueBox, Dictionary>("avatars", &DialogueBox::_avatars, Dictionary{});
 
     register_signal<DialogueBox>(const_cast<char*>("on_dialogue_end"));
 }
@@ -311,4 +314,26 @@ void DialogueBox::ParseVariables(String& text) {
         String res = Call(func);
         text = text.replace(text.substr(begin, end + 2 - begin), res);
     }
+}
+
+void DialogueBox::SetCurrentCharacter(String name) {
+    if (_avatars.has(name)) {
+        TextureRect* rect = get_node<TextureRect>(_avatar_path);
+        if (rect == nullptr) {
+            Godot::print_error("Avatar texture rect is not set.", "DialogueBox::SetCurrentCharacter", __FILE__, __LINE__);
+            return;
+        }
+
+        rect->set_texture(Object::cast_to<Texture>(_avatars[name]));
+    }
+
+    name = Object::tr(name);
+    Label* label = get_node<Label>(_name_path);
+
+    if (label == nullptr) {
+        Godot::print_error("Name label is not set.", "DialogueBox::SetCurrentCharacter", __FILE__, __LINE__);
+        return;
+    }
+
+    label->set_text(name);
 }

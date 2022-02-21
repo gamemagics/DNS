@@ -38,7 +38,7 @@ dialogue_down={
 
 [locale]
 
-translations=PoolStringArray( "res://Dialogues/test.en.translation", "res://Dialogues/test.zh_CN.translation" )
+translations=PoolStringArray( "res://Dialogues/test.en.translation", "res://Dialogues/test.zh_CN.translation", "res://Dialogues/chara.en.translation", "res://Dialogues/chara.zh_CN.translation" )
 locale_filter=[ 0, [ "en_US", "zh_CN" ] ]
 
 [physics]

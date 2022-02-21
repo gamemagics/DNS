@@ -9,6 +9,8 @@
 #include <InputEvent.hpp>
 #include <TextureRect.hpp>
 #include <Label.hpp>
+#include <Texture.hpp>
+#include <Dictionary.hpp>
 
 #include "dialogue_data.h"
 
@@ -33,6 +35,12 @@ public:
     String Call(String name);
 
     void FinishPlaying();
+
+    inline void AddCharacter(Ref<Texture> avatar, String name) {
+        _avatars[name] = avatar;
+    }
+
+    void SetCurrentCharacter(String name);
 private:
     enum class DialogueStatus {
         IDLE, PLAY, WAIT, DISABLE
@@ -55,6 +63,8 @@ private:
     Tween* _tween;
     RichTextLabel* _content_node;
     Label* _choices[4];
+
+    Dictionary _avatars;
     
     float _speed;
     bool _selecting;

@@ -65,7 +65,8 @@ int DialogueData::ProcessSelect(int choice) {
 }
 
 void DialogueData::ProcessCharacter() {
-    // TODO:
+    DialogueLine& line = _lines[_current];
+    _db->SetCurrentCharacter(line.content[0]);
 }
 
 int DialogueData::ProcessGoto() {

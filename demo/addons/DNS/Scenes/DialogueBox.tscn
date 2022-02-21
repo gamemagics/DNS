@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://addons/DNS/DialogueBox.gdns" type="Script" id=1]
 [ext_resource path="res://Images/player_icon.tres" type="Texture" id=2]
@@ -6,9 +6,14 @@
 [ext_resource path="res://addons/DNS/Styles/9SpriteBackground.tres" type="StyleBox" id=4]
 [ext_resource path="res://Images/dots.tres" type="Texture" id=5]
 [ext_resource path="res://addons/DNS/Styles/ChoicesBackground.tres" type="StyleBox" id=6]
+[ext_resource path="res://Images/npc_icon.tres" type="Texture" id=7]
 
 [node name="DialogueBox" type="CanvasLayer"]
 script = ExtResource( 1 )
+avatars = {
+"NPC": ExtResource( 7 ),
+"Player": ExtResource( 2 )
+}
 
 [node name="Background" type="Panel" parent="."]
 anchor_top = 1.0
