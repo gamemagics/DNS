@@ -11,6 +11,8 @@
 
 namespace godot {
 
+class DialogueBox;
+
 class DialogueData : public Resource {
     GODOT_CLASS(DialogueData, Resource);
 public:
@@ -34,7 +36,7 @@ public:
         DialogueLine() : time(-1), relative(0), runtime(0) {}
     };
 
-    DialogueData() : _current(0), _node(nullptr) {
+    DialogueData() : _current(0), _db(nullptr) {
     }
 
     static void _register_methods();
@@ -45,7 +47,7 @@ public:
         _lines.push_back(line);
     }
 
-    inline void SetScriptNode(String script) {
+    inline void SetScriptNode(NodePath script) {
         _script_node = script;
     }
 
@@ -53,8 +55,12 @@ public:
         _mapping[key] = _lines.size();
     }
 
-    inline String GetScriptNode() const {
+    inline NodePath GetScriptNode() const {
         return _script_node;
+    }
+
+    inline void setDialogueBoxRef(DialogueBox* db) {
+        _db = db;
     }
 private:
     std::vector<DialogueLine> _lines;
@@ -62,8 +68,8 @@ private:
 
     int _current;
 
-    String _script_node;
-    Node* _node;
+    NodePath _script_node;
+    DialogueBox* _db;
 
     int ProcessSelect(int choice);
     void ProcessCharacter();

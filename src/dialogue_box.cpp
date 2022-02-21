@@ -73,6 +73,9 @@ void DialogueBox::StartDialogue(String filename) {
         return;
     }
 
+    _data->setDialogueBoxRef(this);
+    _script_node = get_node(_data->GetScriptNode());
+
     Show(_background_path);
     Show(_content_path);
     Show(_name_path);
@@ -86,4 +89,23 @@ void DialogueBox::SkipAnimation() {
 
 void DialogueBox::Next() {
 
+}
+
+String DialogueBox::Call(String name) {
+    if (_script_node == nullptr) {
+        Godot::print_error("No script node given.", "DialogueBox::Call", __FILE__, __LINE__);
+        return "";
+    }
+
+    Variant res = _script_node->call(name);
+    if (res.get_type() == res.NIL) {
+        return "";
+    }
+    else if (res.get_type() == res.STRING) {
+        return res;
+    }
+    else {
+        Godot::print_error("Type is not allowed.", "DialogueBox::Call", __FILE__, __LINE__);
+        return "";
+    }
 }

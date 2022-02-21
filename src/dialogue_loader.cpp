@@ -50,7 +50,7 @@ DialogueData* DialogueLoader::Parse(String content) {
 
         if (line[0] == '#') {
             String script = ParseScript(line);
-            dialogue->SetScriptNode(script);
+            dialogue->SetScriptNode(script.alloc_c_string());
         }
         else if (line[0] == '[') {
             dl.type = DialogueData::CommandType::CHARACTER;

@@ -25,6 +25,8 @@ public:
     void SkipAnimation();
     
     void Next();
+
+    String Call(String name);
 private:
     NodePath _background_path;
     NodePath _content_path;
@@ -35,6 +37,7 @@ private:
     NodePath _hint_path;
 
     DialogueData* _data;
+    Node* _script_node;
 
     void Hide(NodePath path);
     void Show(NodePath path);

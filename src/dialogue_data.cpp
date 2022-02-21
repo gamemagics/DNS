@@ -3,6 +3,8 @@
 #include <GodotGlobal.hpp>
 #include <PoolArrays.hpp>
 
+#include "dialogue_box.h"
+
 using namespace godot;
 
 void DialogueData::_register_methods() {
@@ -85,5 +87,5 @@ void DialogueData::ProcessExecute() {
 
 
 String DialogueData::Execute(String name) {
-    return ""; // TODO:
+    return _db->Call(name); // TODO:
 }
