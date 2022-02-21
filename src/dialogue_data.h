@@ -66,6 +66,8 @@ public:
     inline bool NeedToSelect() const {
         return _lines[_current].type == CommandType::SELECT;
     }
+
+    void free();
 private:
     std::vector<DialogueLine> _lines;
     Dictionary _mapping;

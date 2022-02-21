@@ -224,6 +224,8 @@ void DialogueBox::UpdateIdle() {
             _choices[i]->set_visible(true);
         }
 
+        _choices[_selected]->set("custom_colors/font_color", Color(0, 0, 1));
+
         Show(_choices_path);
         _status = DialogueStatus::WAIT;
     }
@@ -253,7 +255,7 @@ void DialogueBox::UpdateWait() {
             _status = DialogueStatus::IDLE;
             get_tree()->set_input_as_handled();
 
-            _choices[_selected]->set("custom_colors/font_color", Color(0, 0, 0));
+            _choices[_selected]->set("custom_colors/font_color", Color(1, 1, 1));
             for (int i = 0; i < 4; ++i) {
                 _choices[i]->set_visible(false);
             }
@@ -270,7 +272,7 @@ void DialogueBox::UpdateWait() {
         }
 
         if (next != _selected) {
-            _choices[_selected]->set("custom_colors/font_color", Color(0, 0, 0));
+            _choices[_selected]->set("custom_colors/font_color", Color(1, 1, 1));
             _choices[next]->set("custom_colors/font_color", Color(0, 0, 1));
 
             _selected = next;

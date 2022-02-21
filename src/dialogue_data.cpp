@@ -8,6 +8,7 @@
 using namespace godot;
 
 void DialogueData::_register_methods() {
+    register_method("free", &DialogueData::free);
 }
 
 DialogueData::DialogueLine& DialogueData::Next(int choice/* = -1*/) {
@@ -88,4 +89,9 @@ void DialogueData::ProcessExecute() {
 
 String DialogueData::Execute(String name) {
     return _db->Call(name); 
+}
+
+void DialogueData::free() {
+    _lines.clear();
+    _mapping.clear();
 }
