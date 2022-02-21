@@ -47,14 +47,13 @@ void DialogueBox::_process(float delta) {
 
 void DialogueBox::_ready() {
     Disable();
-    _tween = get_node<Tween>(_tween_path);
 
+    _tween = get_node<Tween>(_tween_path);
     if (_tween == nullptr) {
         Godot::print_error("Tween is not set.", "DialogueBox::_ready", __FILE__, __LINE__);
     }
 
     _content_node = get_node<RichTextLabel>(_content_path);
-
     if (_tween == nullptr) {
         Godot::print_error("Content node is not set.", "DialogueBox::_ready", __FILE__, __LINE__);
     }
@@ -84,15 +83,13 @@ void DialogueBox::Hide(NodePath path) {
     }
 }
 
-Control* DialogueBox::Show(NodePath path) {
+void DialogueBox::Show(NodePath path) {
     auto* control_node = this->get_node<Control>(path);
     if (control_node != nullptr) {
         control_node->show();
-        return control_node;
     }
     else {
         Godot::print_error("Can't get node " + path, "DialogueBox::Hide", __FILE__, __LINE__);
-        return nullptr;
     }
 }
 
@@ -183,6 +180,7 @@ void DialogueBox::UpdatePlay() {
     if (_content_node->get_percent_visible() >= 1.0) {
         _tween->stop_all();
         _status = DialogueStatus::WAIT;
+        Show(_hint_path);
     }
 }
 
@@ -190,6 +188,7 @@ void DialogueBox::UpdateWait() {
     if (Input::get_singleton()->is_action_pressed(_next_key)) {
         _status = DialogueStatus::IDLE;
         get_tree()->set_input_as_handled();
+        Hide(_hint_path);
     }
 }
 

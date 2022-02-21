@@ -7,6 +7,7 @@
 #include <Tween.hpp>
 #include <RichTextLabel.hpp>
 #include <InputEvent.hpp>
+#include <TextureRect.hpp>
 
 #include "dialogue_data.h"
 
@@ -48,13 +49,13 @@ private:
     Node* _script_node;
     Tween* _tween;
     RichTextLabel* _content_node;
-
+    
     float _speed;
 
     DialogueStatus _status;
 
     void Hide(NodePath path);
-    Control* Show(NodePath path);
+    void Show(NodePath path);
 
     void UpdateIdle();
     void UpdatePlay();
