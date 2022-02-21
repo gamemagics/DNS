@@ -199,6 +199,7 @@ void DialogueLoader::ParseChoice(String& text, String&choice, String& label, uns
         rel = 1;
     }
 
+    text = text.substr(1, text.length() - 1);
     String function;
     ParseGoto(text, label, function);
     if (label.empty()) {

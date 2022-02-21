@@ -41,7 +41,7 @@ public:
 
     static void _register_methods();
 
-    DialogueLine& Next(int choice = -1);
+    DialogueLine& Next(int choice);
 
     inline void Push(const DialogueLine& line) {
         _lines.push_back(line);

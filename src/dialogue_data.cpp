@@ -11,8 +11,9 @@ void DialogueData::_register_methods() {
     register_method("free", &DialogueData::free);
 }
 
-DialogueData::DialogueLine& DialogueData::Next(int choice/* = -1*/) {
+DialogueData::DialogueLine& DialogueData::Next(int choice) {
     bool flag = true;
+    int index = _current;
     while (flag) {
         const DialogueLine& line = _lines[_current];
         switch (line.type) {
@@ -29,15 +30,17 @@ DialogueData::DialogueLine& DialogueData::Next(int choice/* = -1*/) {
                 break;
             case CommandType::SELECT:
                 _current = ProcessSelect(choice);
-                if (choice != -1) break;
+                if (choice == -1) flag = false;
+                break;
             case CommandType::QUIT:
             default: // SHOW
+                index = _current++;
                 flag = false;
                 break;
         }
     }
 
-    return _lines[_current++];
+    return _lines[index];
 }
 
 int DialogueData::ProcessSelect(int choice) {
@@ -54,8 +57,8 @@ int DialogueData::ProcessSelect(int choice) {
     }
 
     if (!_mapping.has(name)) {
-        Godot::print_error("Can't find label" + name, "DialogueData::ProcessSelect", __FILE__, __LINE__);
-        return _current;
+        Godot::print_error("Can't find label " + name, "DialogueData::ProcessSelect", __FILE__, __LINE__);
+        return 0;
     }
 
     return _mapping[name];
@@ -74,8 +77,8 @@ int DialogueData::ProcessGoto() {
     }
 
     if (!_mapping.has(name)) {
-        Godot::print_error("Can't find label" + name, "DialogueData::ProcessGoto", __FILE__, __LINE__);
-        return _current;
+        Godot::print_error("Can't find label " + name, "DialogueData::ProcessGoto", __FILE__, __LINE__);
+        return 0;
     }
 
     return _mapping[name];
