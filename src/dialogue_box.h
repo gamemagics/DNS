@@ -71,6 +71,8 @@ private:
     void UpdateWait();
 
     void Disable();
+
+    void ParseVariables(String& text);
 };
 
 } // namespace godot

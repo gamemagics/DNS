@@ -1,5 +1,7 @@
 #include "dialogue_box.h"
 
+#include <regex>
+
 #include <GodotGlobal.hpp>
 #include <Control.hpp>
 #include <SceneTree.hpp>
@@ -191,7 +193,9 @@ void DialogueBox::UpdateIdle() {
             text = (line.content[0]);
         }
 
+        ParseVariables(text);
         _content_node->set_bbcode(text);
+
         if (line.time > 0.0f) {
             _speed = 1.0f / line.time;
         }
@@ -289,4 +293,22 @@ void DialogueBox::Disable() {
     Hide(_hint_path);
 
     _status = DialogueStatus::DISABLE;
+}
+
+void DialogueBox::ParseVariables(String& text) {
+    while (true) {
+        int begin = text.find("{{");
+        if (begin == -1) {
+            break;
+        }
+
+        int end = text.find("}}", begin + 2);
+        if (end == -1) {
+            break;
+        }
+
+        String func = text.substr(begin + 2, end - begin - 2);
+        String res = Call(func);
+        text = text.replace(text.substr(begin, end + 2 - begin), res);
+    }
 }

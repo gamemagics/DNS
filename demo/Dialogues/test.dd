@@ -28,7 +28,7 @@ enough:
 quit
 
 less:
-"You only have {{GetApplesCount()}}."
+"You only have {{GetApplesCount}}."
 "Just do it!"
 PrintTest()
 quit
