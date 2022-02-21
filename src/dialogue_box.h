@@ -11,6 +11,8 @@
 #include <Label.hpp>
 #include <Texture.hpp>
 #include <Dictionary.hpp>
+#include <AudioStream.hpp>
+#include <AudioStreamPlayer.hpp>
 
 #include "dialogue_data.h"
 
@@ -36,8 +38,9 @@ public:
 
     void FinishPlaying();
 
-    inline void AddCharacter(Ref<Texture> avatar, String name) {
+    inline void AddCharacter(Ref<Texture> avatar, Ref<AudioStream> sound, String name) {
         _avatars[name] = avatar;
+        _sounds[name] = sound;
     }
 
     void SetCurrentCharacter(String name);
@@ -53,6 +56,7 @@ private:
     NodePath _choices_path;
     NodePath _tween_path;
     NodePath _hint_path;
+    NodePath _effect_path;
 
     String _next_key;
     String _up_key;
@@ -63,13 +67,16 @@ private:
     Tween* _tween;
     RichTextLabel* _content_node;
     Label* _choices[4];
+    AudioStreamPlayer* _player;
 
     Dictionary _avatars;
+    Dictionary _sounds;
     
     float _speed;
     bool _selecting;
     int _selected;
     int _select_range;
+    int _shown;
 
     DialogueStatus _status;
 
@@ -79,6 +86,7 @@ private:
     void UpdateIdle();
     void UpdatePlay();
     void UpdateWait();
+    void UpdateSound();
 
     void Disable();
 

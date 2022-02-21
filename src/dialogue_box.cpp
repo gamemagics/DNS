@@ -23,6 +23,7 @@ void DialogueBox::_register_methods() {
     register_method("AddCharacter", &DialogueBox::AddCharacter);
 
     register_property<DialogueBox, Dictionary>("avatars", &DialogueBox::_avatars, Dictionary{});
+    register_property<DialogueBox, Dictionary>("sounds", &DialogueBox::_sounds, Dictionary{});
 
     register_signal<DialogueBox>(const_cast<char*>("on_dialogue_end"));
 }
@@ -35,6 +36,7 @@ void DialogueBox::_init() {
     _choices_path = "Choices";
     _tween_path = "Tween";
     _hint_path = "NextHint";
+    _effect_path = "Effect";
     _next_key = "dialogue_next";
     _up_key = "dialogue_up";
     _down_key = "dialogue_down";
@@ -49,6 +51,8 @@ void DialogueBox::_process(float delta) {
             UpdateIdle();
             break;
         case DialogueStatus::PLAY:
+            UpdateSound();
+            break;
         case DialogueStatus::WAIT:
         default: // DISABLE
             break;
@@ -72,15 +76,20 @@ void DialogueBox::_ready() {
 
     Node* choices = get_node(_choices_path);
     if (choices == nullptr) {
-        Godot::print_error("Choices is not set.", "DialogueBox::UpdateIdle", __FILE__, __LINE__);
+        Godot::print_error("Choices is not set.", "DialogueBox::_ready", __FILE__, __LINE__);
     }
 
     for (int i = 0; i < 4; ++i) {
         _choices[i] = choices->get_node<Label>(NodePath{"Choice" + String::num(i)});
         if (_choices[i] == nullptr) {
-            Godot::print_error("Choices is not set.", "DialogueBox::UpdateIdle", __FILE__, __LINE__);
+            Godot::print_error("Choices is not set.", "DialogueBox::_ready", __FILE__, __LINE__);
             break;
         }
+    }
+
+    _player = get_node<AudioStreamPlayer>(_effect_path);
+    if (_player == nullptr) {
+        Godot::print_error("Effect player is not set.", "DialogueBox::_ready", __FILE__, __LINE__);
     }
 }
 
@@ -180,7 +189,7 @@ void DialogueBox::UpdateIdle() {
     using CommandType = DialogueData::CommandType;
 
     auto& line = _data->Next(_selected);
-    _selected = -1;
+    _selected = -1; _shown = 0;
     if (line.type == CommandType::QUIT) {
         _data->free();
         _data = nullptr;
@@ -336,4 +345,16 @@ void DialogueBox::SetCurrentCharacter(String name) {
     }
 
     label->set_text(name);
+
+    if (_sounds.has(name)) {
+        _player->set_stream(Object::cast_to<AudioStream>(_sounds[name]));
+    }
+}
+
+void DialogueBox::UpdateSound() {
+    int now = _content_node->get_visible_characters();
+    if (now > _shown) {
+        _player->play();
+        _shown = now;
+    }
 }

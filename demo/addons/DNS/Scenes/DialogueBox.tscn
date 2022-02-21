@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://addons/DNS/DialogueBox.gdns" type="Script" id=1]
 [ext_resource path="res://Images/player_icon.tres" type="Texture" id=2]
@@ -7,12 +7,18 @@
 [ext_resource path="res://Images/dots.tres" type="Texture" id=5]
 [ext_resource path="res://addons/DNS/Styles/ChoicesBackground.tres" type="StyleBox" id=6]
 [ext_resource path="res://Images/npc_icon.tres" type="Texture" id=7]
+[ext_resource path="res://Sounds/effect1.wav" type="AudioStream" id=8]
+[ext_resource path="res://Sounds/effect2.wav" type="AudioStream" id=9]
 
 [node name="DialogueBox" type="CanvasLayer"]
 script = ExtResource( 1 )
 avatars = {
 "NPC": ExtResource( 7 ),
 "Player": ExtResource( 2 )
+}
+sounds = {
+"NPC": ExtResource( 9 ),
+"Player": ExtResource( 8 )
 }
 
 [node name="Background" type="Panel" parent="."]
@@ -34,7 +40,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 144.0
 margin_top = -130.0
-margin_right = -8.0
+margin_right = -136.0
 margin_bottom = -8.0
 grow_vertical = 0
 custom_colors/default_color = Color( 0, 0, 0, 1 )
@@ -78,10 +84,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -40.0
-margin_top = -40.0
-margin_right = -8.0
-margin_bottom = -8.0
+margin_left = -52.0
+margin_top = -52.0
+margin_right = -20.0
+margin_bottom = -20.0
 texture = ExtResource( 5 )
 stretch_mode = 1
 __meta__ = {
@@ -136,3 +142,5 @@ custom_styles/normal = ExtResource( 6 )
 text = "Choice3"
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="Effect" type="AudioStreamPlayer" parent="."]
