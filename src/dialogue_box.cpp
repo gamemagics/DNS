@@ -3,7 +3,8 @@
 #include <GodotGlobal.hpp>
 #include <Control.hpp>
 #include <SceneTree.hpp>
-#include <Viewport.hpp>
+#include <RichTextLabel.hpp>
+#include <PoolArrays.hpp>
 
 #include "dialogue_loader.h"
 
@@ -14,8 +15,6 @@ void DialogueBox::_register_methods() {
     register_method("_process", &DialogueBox::_process);
     register_method("_ready", &DialogueBox::_ready);
     register_method("StartDialogue", &DialogueBox::StartDialogue);
-    register_method("SkipAnimation", &DialogueBox::SkipAnimation);
-    register_method("Next", &DialogueBox::Next);
 
     register_signal<DialogueBox>(const_cast<char*>("on_dialogue_end"));
 }
@@ -29,19 +28,30 @@ void DialogueBox::_init() {
     _tween_path = "Tween";
     _hint_path = "NextHint";
     _data = nullptr;
+    _speed = 0.1f;
 }
 
 void DialogueBox::_process(float delta) {
-
+    switch (_status) {
+        case DialogueStatus::IDLE:
+            UpdateIdle();
+            break;
+        case DialogueStatus::PLAY:
+            UpdatePlay();
+            break;
+        case DialogueStatus::WAIT:
+        default: // DISABLE
+            break;
+    }
 }
 
 void DialogueBox::_ready() {
-    Hide(_background_path);
-    Hide(_content_path);
-    Hide(_name_path);
-    Hide(_avatar_path);
-    Hide(_choices_path);
-    Hide(_hint_path);
+    Disable();
+    _tween = get_node<Tween>(_tween_path);
+
+    if (_tween == nullptr) {
+        Godot::print_error("Tween is not set.", "DialogueBox::_ready", __FILE__, __LINE__);
+    }
 }
 
 void DialogueBox::Hide(NodePath path) {
@@ -54,13 +64,15 @@ void DialogueBox::Hide(NodePath path) {
     }
 }
 
-void DialogueBox::Show(NodePath path) {
+Control* DialogueBox::Show(NodePath path) {
     auto* control_node = this->get_node<Control>(path);
     if (control_node != nullptr) {
         control_node->show();
+        return control_node;
     }
     else {
         Godot::print_error("Can't get node " + path, "DialogueBox::Hide", __FILE__, __LINE__);
+        return nullptr;
     }
 }
 
@@ -83,14 +95,8 @@ void DialogueBox::StartDialogue(String filename) {
     Show(_name_path);
     Show(_avatar_path);
     Show(_choices_path);
-}
 
-void DialogueBox::SkipAnimation() {
-
-}
-
-void DialogueBox::Next() {
-
+    _status = DialogueStatus::IDLE;
 }
 
 String DialogueBox::Call(String name) {
@@ -110,4 +116,61 @@ String DialogueBox::Call(String name) {
         Godot::print_error("Type is not allowed.", "DialogueBox::Call", __FILE__, __LINE__);
         return "";
     }
+}
+
+void DialogueBox::UpdateIdle() {
+    if (_data == nullptr) {
+        Godot::print_error("Dialogue data is not set.", "DialogueBox::UpdateIdle", __FILE__, __LINE__);
+        return;
+    }
+
+    using CommandType = DialogueData::CommandType;
+
+    auto& line = _data->Next(-1);
+    if (line.type == CommandType::QUIT) {
+        emit_signal("on_dialogue_end");
+        Disable();
+    }
+    else if (line.type == CommandType::SHOW) {
+        RichTextLabel* content_node = Object::cast_to<RichTextLabel>(Show(_content_path));
+        if (content_node == nullptr) {
+            Godot::print_error("Content label is not set.", "DialogueBox::UpdateIdle", __FILE__, __LINE__);
+            return;
+        }
+        
+        String text;
+        if (line.relative) {
+            text = (Object::tr(line.content[0]));
+        }
+        else {
+            text = (line.content[0]);
+        }
+
+        content_node->set_text(text);
+        if (line.time > 0.0f) {
+            _speed = 1.0f / line.time;
+        }
+        
+        content_node->set_percent_visible(0.0);
+        _tween->interpolate_property(content_node, "percent_visible", 0, 1,
+                                    _speed * text.length(), Tween::TRANS_LINEAR);
+        _tween->start();
+
+        _status = DialogueStatus::PLAY;
+    }
+}
+
+void DialogueBox::UpdatePlay() {
+
+}
+
+void DialogueBox::Disable() {
+    Hide(_background_path);
+    Hide(_content_path);
+    Hide(_name_path);
+    Hide(_avatar_path);
+    Hide(_choices_path);
+    Hide(_hint_path);
+
+    _status = DialogueStatus::DISABLE;
 }

@@ -2,7 +2,7 @@
 #define __DIALOGUE_DATA_H__
 
 #include <Godot.hpp>
-#include <Resource.hpp>
+#include <Object.hpp>
 #include <Node.hpp>
 #include <vector>
 #include <Dictionary.hpp>
@@ -13,8 +13,8 @@ namespace godot {
 
 class DialogueBox;
 
-class DialogueData : public Resource {
-    GODOT_CLASS(DialogueData, Resource);
+class DialogueData : public Object {
+    GODOT_CLASS(DialogueData, Object);
 public:
     enum class CommandType {
         SHOW = 0,
@@ -41,7 +41,7 @@ public:
 
     static void _register_methods();
 
-    const DialogueLine& Next(int choice = -1);
+    DialogueLine& Next(int choice = -1);
 
     inline void Push(const DialogueLine& line) {
         _lines.push_back(line);

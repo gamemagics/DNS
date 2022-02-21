@@ -2,7 +2,9 @@
 #define __DIALOGUE_BOX_H__
 
 #include <Godot.hpp>
+#include <Control.hpp>
 #include <CanvasLayer.hpp>
+#include <Tween.hpp>
 
 #include "dialogue_data.h"
 
@@ -22,12 +24,12 @@ public:
 
     void StartDialogue(String filename);
 
-    void SkipAnimation();
-    
-    void Next();
-
     String Call(String name);
 private:
+    enum class DialogueStatus {
+        IDLE, PLAY, WAIT, DISABLE
+    };
+
     NodePath _background_path;
     NodePath _content_path;
     NodePath _name_path;
@@ -38,9 +40,18 @@ private:
 
     DialogueData* _data;
     Node* _script_node;
+    Tween* _tween;
+
+    float _speed;
+
+    DialogueStatus _status;
 
     void Hide(NodePath path);
-    void Show(NodePath path);
+    Control* Show(NodePath path);
+
+    void UpdateIdle();
+    void UpdatePlay();
+    void Disable();
 };
 
 } // namespace godot

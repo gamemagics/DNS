@@ -10,7 +10,7 @@ using namespace godot;
 void DialogueData::_register_methods() {
 }
 
-const DialogueData::DialogueLine& DialogueData::Next(int choice/* = -1*/) {
+DialogueData::DialogueLine& DialogueData::Next(int choice/* = -1*/) {
     bool flag = true;
     while (flag) {
         const DialogueLine& line = _lines[_current];
@@ -30,7 +30,7 @@ const DialogueData::DialogueLine& DialogueData::Next(int choice/* = -1*/) {
                 _current = ProcessSelect(choice);
                 if (choice != -1) break;
             case CommandType::QUIT:
-            default:
+            default: // SHOW
                 flag = false;
                 break;
         }
@@ -87,5 +87,5 @@ void DialogueData::ProcessExecute() {
 
 
 String DialogueData::Execute(String name) {
-    return _db->Call(name); // TODO:
+    return _db->Call(name); 
 }
