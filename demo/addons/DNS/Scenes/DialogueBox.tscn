@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://addons/DNS/DialogueBox.gdns" type="Script" id=1]
 [ext_resource path="res://Images/player_icon.tres" type="Texture" id=2]
 [ext_resource path="res://addons/DNS/Styles/NameBackground.tres" type="StyleBox" id=3]
 [ext_resource path="res://addons/DNS/Styles/9SpriteBackground.tres" type="StyleBox" id=4]
 [ext_resource path="res://Images/dots.tres" type="Texture" id=5]
+[ext_resource path="res://addons/DNS/Styles/ChoicesBackground.tres" type="StyleBox" id=6]
 
 [node name="DialogueBox" type="CanvasLayer"]
 script = ExtResource( 1 )
@@ -88,7 +89,7 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -136.0
-margin_top = -208.0
+margin_top = -158.0
 margin_right = -8.0
 margin_bottom = -144.0
 grow_horizontal = 0
@@ -97,31 +98,36 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Choice1" type="Label" parent="Choices"]
+[node name="Choice0" type="Label" parent="Choices"]
 visible = false
 margin_right = 51.0
 margin_bottom = 14.0
-text = "Choice1"
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_styles/normal = ExtResource( 6 )
+text = "Choice0"
 
-[node name="Choice2" type="Label" parent="Choices"]
+[node name="Choice1" type="Label" parent="Choices"]
 visible = false
 margin_top = 18.0
 margin_right = 51.0
 margin_bottom = 32.0
-text = "Choice2"
+custom_styles/normal = ExtResource( 6 )
+text = "Choice1"
 
-[node name="Choice3" type="Label" parent="Choices"]
+[node name="Choice2" type="Label" parent="Choices"]
 visible = false
 margin_top = 36.0
 margin_right = 51.0
 margin_bottom = 50.0
-text = "Choice3"
+custom_styles/normal = ExtResource( 6 )
+text = "Choice2"
 
-[node name="Choice4" type="Label" parent="Choices"]
+[node name="Choice3" type="Label" parent="Choices"]
 visible = false
 margin_top = 54.0
 margin_right = 51.0
 margin_bottom = 68.0
-text = "Choice4"
+custom_styles/normal = ExtResource( 6 )
+text = "Choice3"
 
 [node name="Tween" type="Tween" parent="."]

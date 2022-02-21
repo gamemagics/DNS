@@ -59,8 +59,12 @@ public:
         return _script_node;
     }
 
-    inline void setDialogueBoxRef(DialogueBox* db) {
+    inline void SetDialogueBoxRef(DialogueBox* db) {
         _db = db;
+    }
+
+    inline bool NeedToSelect() const {
+        return _lines[_current].type == CommandType::SELECT;
     }
 private:
     std::vector<DialogueLine> _lines;

@@ -8,6 +8,7 @@
 #include <RichTextLabel.hpp>
 #include <InputEvent.hpp>
 #include <TextureRect.hpp>
+#include <Label.hpp>
 
 #include "dialogue_data.h"
 
@@ -30,6 +31,8 @@ public:
     void StartDialogue(String filename);
 
     String Call(String name);
+
+    void FinishPlaying();
 private:
     enum class DialogueStatus {
         IDLE, PLAY, WAIT, DISABLE
@@ -44,13 +47,19 @@ private:
     NodePath _hint_path;
 
     String _next_key;
+    String _up_key;
+    String _down_key;
 
     DialogueData* _data;
     Node* _script_node;
     Tween* _tween;
     RichTextLabel* _content_node;
+    Label* _choices[4];
     
     float _speed;
+    bool _selecting;
+    int _selected;
+    int _select_range;
 
     DialogueStatus _status;
 
