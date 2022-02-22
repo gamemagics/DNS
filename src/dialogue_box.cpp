@@ -24,6 +24,17 @@ void DialogueBox::_register_methods() {
 
     register_property<DialogueBox, Dictionary>("avatars", &DialogueBox::_avatars, Dictionary{});
     register_property<DialogueBox, Dictionary>("sounds", &DialogueBox::_sounds, Dictionary{});
+    register_property<DialogueBox, NodePath>("background_path", &DialogueBox::_background_path, "Background");
+    register_property<DialogueBox, NodePath>("content_path", &DialogueBox::_content_path, "Content");
+    register_property<DialogueBox, NodePath>("name_path", &DialogueBox::_name_path, "Name");
+    register_property<DialogueBox, NodePath>("avatar_path", &DialogueBox::_avatar_path, "Avatar");
+    register_property<DialogueBox, NodePath>("choices_path", &DialogueBox::_choices_path, "Choices");
+    register_property<DialogueBox, NodePath>("tween_path", &DialogueBox::_tween_path, "Tween");
+    register_property<DialogueBox, NodePath>("hint_path", &DialogueBox::_hint_path, "Background");
+    register_property<DialogueBox, NodePath>("effect_path", &DialogueBox::_effect_path, "Effect");
+    register_property<DialogueBox, String>("next_key", &DialogueBox::_next_key, "dialogue_next");
+    register_property<DialogueBox, String>("up_key", &DialogueBox::_up_key, "dialogue_up");
+    register_property<DialogueBox, String>("down_key", &DialogueBox::_down_key, "dialogue_down");
 
     register_signal<DialogueBox>(const_cast<char*>("on_dialogue_end"));
 }
