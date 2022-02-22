@@ -1,11 +1,7 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://addons/DNS/DialogueBox.gdns" type="Script" id=1]
 [ext_resource path="res://Images/player_icon.tres" type="Texture" id=2]
-[ext_resource path="res://addons/DNS/Styles/NameBackground.tres" type="StyleBox" id=3]
-[ext_resource path="res://addons/DNS/Styles/9SpriteBackground.tres" type="StyleBox" id=4]
-[ext_resource path="res://Images/dots.tres" type="Texture" id=5]
-[ext_resource path="res://addons/DNS/Styles/ChoicesBackground.tres" type="StyleBox" id=6]
 [ext_resource path="res://Images/npc_icon.tres" type="Texture" id=7]
 [ext_resource path="res://Sounds/effect1.wav" type="AudioStream" id=8]
 [ext_resource path="res://Sounds/effect2.wav" type="AudioStream" id=9]
@@ -29,7 +25,7 @@ margin_left = 8.0
 margin_top = -136.0
 margin_right = -8.0
 margin_bottom = -8.0
-custom_styles/panel = ExtResource( 4 )
+rect_scale = Vector2( 1, 1.00989 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -58,7 +54,6 @@ margin_left = 8.0
 margin_top = -56.0
 margin_right = 136.0
 margin_bottom = -8.0
-custom_styles/normal = ExtResource( 3 )
 text = "Name"
 align = 1
 valign = 1
@@ -73,7 +68,6 @@ margin_left = 8.0
 margin_top = -248.0
 margin_right = 135.0
 margin_bottom = -56.0
-texture = ExtResource( 2 )
 stretch_mode = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -88,7 +82,6 @@ margin_left = -52.0
 margin_top = -52.0
 margin_right = -20.0
 margin_bottom = -20.0
-texture = ExtResource( 5 )
 stretch_mode = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -114,7 +107,6 @@ visible = false
 margin_right = 51.0
 margin_bottom = 14.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_styles/normal = ExtResource( 6 )
 text = "Choice0"
 
 [node name="Choice1" type="Label" parent="Choices"]
@@ -123,7 +115,6 @@ margin_top = 18.0
 margin_right = 51.0
 margin_bottom = 32.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_styles/normal = ExtResource( 6 )
 text = "Choice1"
 
 [node name="Choice2" type="Label" parent="Choices"]
@@ -132,7 +123,6 @@ margin_top = 36.0
 margin_right = 51.0
 margin_bottom = 50.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_styles/normal = ExtResource( 6 )
 text = "Choice2"
 
 [node name="Choice3" type="Label" parent="Choices"]
@@ -141,7 +131,6 @@ margin_top = 54.0
 margin_right = 51.0
 margin_bottom = 68.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_styles/normal = ExtResource( 6 )
 text = "Choice3"
 
 [node name="Tween" type="Tween" parent="."]
