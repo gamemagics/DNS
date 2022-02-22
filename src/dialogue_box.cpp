@@ -21,6 +21,7 @@ void DialogueBox::_register_methods() {
     register_method("StartDialogue", &DialogueBox::StartDialogue);
     register_method("FinishPlaying", &DialogueBox::FinishPlaying);
     register_method("AddCharacter", &DialogueBox::AddCharacter);
+    register_method("PlayChoicesAnimation", &DialogueBox::PlayChoicesAnimation);
 
     register_property<DialogueBox, Dictionary>("avatars", &DialogueBox::_avatars, Dictionary{});
     register_property<DialogueBox, Dictionary>("sounds", &DialogueBox::_sounds, Dictionary{});
@@ -119,8 +120,15 @@ void DialogueBox::_unhandled_input(const Ref<InputEvent> event) {
 }
 
 void DialogueBox::FinishPlaying() {
-    if (_data->NeedToSelect()) {
+    _tween->stop_all();
+    _tween->remove_all();
+    _player->stop();
+
+    if (_data->NeedToSelect() && !_selecting) {
         _status = DialogueStatus::IDLE;
+    }
+    else if (_selecting) {
+        _status = DialogueStatus::WAIT;
     }
     else {
         _selecting = false;
@@ -251,19 +259,25 @@ void DialogueBox::UpdateIdle() {
             _choices[i]->set_visible(true);
         }
 
+        for (int i = 0; i < 4; ++i) {
+            Vector2 pos = _choices[i]->get_position();
+            _choices[i]->set_position(Vector2{-(10.0f + (4.0f - i) * 2.0f), pos.y}, true);
+        }
+
         _choices[_selected]->set("custom_colors/font_color", Color(0, 0, 1));
 
         Show(_choices_path);
-        _status = DialogueStatus::WAIT;
+        _status = DialogueStatus::PLAY;
+        _tween->interpolate_method(this, "PlayChoicesAnimation",
+            0, 1, 1, Tween::TRANS_QUAD, Tween::EASE_OUT);
+        _tween->start();
     }
 }
 
 void DialogueBox::UpdatePlay() {
-    if (Input::get_singleton()->is_action_pressed(_next_key)) {
+    if (Input::get_singleton()->is_action_pressed(_next_key) && !_selecting) {
         _content_node->set_percent_visible(1.0);
         get_tree()->set_input_as_handled();
-
-        _tween->stop_all();
         FinishPlaying();
     }
 }
@@ -279,6 +293,7 @@ void DialogueBox::UpdateWait() {
     else {
         int next = _selected;
         if (Input::get_singleton()->is_action_pressed(_next_key)) {
+            _selecting = false;
             _status = DialogueStatus::IDLE;
             get_tree()->set_input_as_handled();
 
@@ -363,9 +378,22 @@ void DialogueBox::SetCurrentCharacter(String name) {
 }
 
 void DialogueBox::UpdateSound() {
+    if (_selecting) {
+        return;
+    }
+
     int now = _content_node->get_visible_characters();
     if (now > _shown) {
         _player->play();
         _shown = now;
+    }
+}
+
+void DialogueBox::PlayChoicesAnimation(float percent) {
+    for (int i = 0; i < 4; ++i) {
+        Color color = _choices[i]->get("custom_colors/font_color");
+        _choices[i]->set("custom_colors/font_color", Color{color.r, color.g, color.b, percent});
+        Vector2 pos = _choices[i]->get_position();
+        _choices[i]->set_position(Vector2{percent * (10 + (4 - i) * 2), pos.y}, true);
     }
 }

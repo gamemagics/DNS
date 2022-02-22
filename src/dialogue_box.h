@@ -91,6 +91,8 @@ private:
     void Disable();
 
     void ParseVariables(String& text);
+
+    void PlayChoicesAnimation(float percent);
 };
 
 } // namespace godot
