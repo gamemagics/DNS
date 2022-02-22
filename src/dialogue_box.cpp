@@ -394,6 +394,6 @@ void DialogueBox::PlayChoicesAnimation(float percent) {
         Color color = _choices[i]->get("custom_colors/font_color");
         _choices[i]->set("custom_colors/font_color", Color{color.r, color.g, color.b, percent});
         Vector2 pos = _choices[i]->get_position();
-        _choices[i]->set_position(Vector2{percent * (10 + (4 - i) * 2), pos.y}, true);
+        _choices[i]->set_position(Vector2{(1.0f - percent) * (-(10 + (4 - i) * 2)), pos.y}, true);
     }
 }
